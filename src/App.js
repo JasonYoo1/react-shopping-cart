@@ -12,25 +12,24 @@ import { CartContext } from './contexts/CartContext'
 function App() {
 	const [products] = useState(data);
 	const [cart, setCart] = useState([]);
-	const product = useContext(ProductContext)
 	const addItem = item => {
 		setCart([...cart, item]);
 	};
 
 	return (
-		<div className="App">
+		<ProductContext.Provider value={{ products, addItem }}>
+		<CartContext.Provider value={{ cart, setCart}}>
 
+		<div className="App">
+			<Navigation />
 			{/* Routes */}
-			<ProductContext.Provider value={{ products, addItem }}>
 			<Route exact path="/" component={Products} />
-			<CartContext.Provider value={{ cart }}>
-			<Navigation cart={cart} />
-			<Route exact path="/cart" component={cart} />
-			</CartContext.Provider>
-			</ProductContext.Provider>
+			<Route exact path="/cart" component={ShoppingCart} />
 
 
 		</div>
+		</CartContext.Provider>
+		</ProductContext.Provider>
 	);
 }
 
